@@ -22,7 +22,7 @@ if [ "$1" = "download" ]; then
 fi
 
 #Install Waterfox
-if [ "$1" = "install" ] && ["$EUID"==0]; then
+if [ "$1" = "install" ] && ["$EUID" -eq 0]; then
   echo "[INSTALLING] $(ls |grep .tar) from $(pwd)"
   echo "[EXTRACTING] Please wait ..."
   tar -xf *.tar.bz2
