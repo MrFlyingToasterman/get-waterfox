@@ -21,6 +21,9 @@ fi
 if [ "$1" = "init" ]; then
   echo "[INIT] Creating folder /usr/share/waterfox"
   mkdir /usr/share/waterfox
+  chmod ug+rwx /usr/share/waterfox --recursive
+  chmod o+x /usr/share/waterfox --recursive
+  exit
 fi
 
 #Download Waterfox
