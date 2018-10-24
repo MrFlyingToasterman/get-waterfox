@@ -19,6 +19,10 @@ fi
 
 #Init Waterfox
 if [ "$1" = "init" ]; then
+if [ "$EUID" != "0" ]; then 
+    echo "[INFO] Please run as root"
+    exit
+  fi
   echo "[INIT] Creating folder /usr/share/waterfox"
   mkdir /usr/share/waterfox
   chmod ug+rwx /usr/share/waterfox --recursive
