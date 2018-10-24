@@ -1,0 +1,44 @@
+#! /bin/bash
+
+#Check if Parameters are set
+if [ "$1" = "" ]; then
+  echo "Welcome to get-waterfox 1.0!"
+  echo ""
+  echo "Usage:"
+  echo "get-waterfox download"
+  echo "get-waterfox install"
+  echo "get-waterfox update"
+  echo "get-waterfox remove"
+  exit
+fi
+
+#Download Waterfox
+if [ "$1" = "download" ]; then
+  echo "[INFO] Downloading Waterfox from GitHub"
+  echo "[INFO] Please stand by ..."
+  wget https://storage-waterfox.netdna-ssl.com/releases/linux64/installer/waterfox-$(curl -s https://api.github.com/repos/MrAlex94/Waterfox/releases/latest | grep tag_name | cut -d '"' -f 4).en-US.linux-x86_64.tar.bz2
+  echo "[ OK ] Now execute: sudo get-waterfox install"
+  exit
+fi
+
+#Install Waterfox
+if [ "$EUID" -ne 0 ] then 
+  echo "[INFO] Please run as root"
+  exit
+fi
+if [ "$1" = "install" ]; then
+  echo "[INSTALLING] $(ls |grep .tar) from $(pwd)"
+  echo "[EXTRACTING] Please wait ..."
+  tar -xf *.tar.bz2
+  echo "[INIT] Creating folder /usr/share/waterfox"
+  mkdir /usr/share/waterfox
+  echo "[COPY] Copying Waterfox files"
+  cp waterfox/* /usr/share/waterfox
+  echo "[LINKING] Creating symlinks"
+  ln -s /usr/share/waterfox/waterfox /bin/waterfox
+  exit
+fi
+
+
+#Unkown Input
+echo "Can't understand"
