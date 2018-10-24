@@ -25,8 +25,7 @@ if [ "$EUID" != "0" ]; then
   fi
   echo "[INIT] Creating folder /usr/share/waterfox"
   mkdir /usr/share/waterfox
-  chmod ug+rwx /usr/share/waterfox --recursive
-  chmod o+x /usr/share/waterfox --recursive
+  chmod 776 /usr/share/waterfox --recursive
   exit
 fi
 
