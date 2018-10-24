@@ -20,6 +20,10 @@ After that, we are ready to install it: <br>
 If you wish to remove Waterfox, just run:<br>
 `$ sudo get-waterfox remove` <br>
 
+# Remove this tool
+If you wish to remove this tool, just run:<br>
+`$ sudo ./get-waterfox-remove` <br>
+
 # License
 ![GNU GPLv3 Image](https://www.gnu.org/graphics/gplv3-127x51.png)
 

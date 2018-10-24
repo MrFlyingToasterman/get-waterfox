@@ -1,0 +1,8 @@
+#! /bin/bash
+
+#Init Waterfox
+if [ "$EUID" != "0" ]; then 
+    echo "[INFO] Please run as root"
+    exit
+fi
+rm /bin/get-waterfox
