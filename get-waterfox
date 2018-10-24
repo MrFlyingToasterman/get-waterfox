@@ -55,6 +55,8 @@ if [ "$1" = "install" ]; then
   touch /usr/share/applications/waterfox.desktop
   echo "[Desktop Entry]" > /usr/share/applications/waterfox.desktop
   echo "Version=1.0" >> /usr/share/applications/waterfox.desktop
+  echo "Encoding=UTF-8" >> /usr/share/applications/waterfox.desktop
+  echo "Name=Waterfox" >> /usr/share/applications/waterfox.desktop
   echo "Comment=Browse the World Wide Web" >> /usr/share/applications/waterfox.desktop
   echo "GenericName=Web Browser" >> /usr/share/applications/waterfox.desktop
   echo "Keywords=Internet;WWW;Browser;Web;Explorer" >> /usr/share/applications/waterfox.desktop
@@ -62,7 +64,7 @@ if [ "$1" = "install" ]; then
   echo "Terminal=false" >> /usr/share/applications/waterfox.desktop
   echo "X-MuiltpleArgs=false" >> /usr/share/applications/waterfox.desktop
   echo "Type=Application" >> /usr/share/applications/waterfox.desktop
-  echo "Icon=waterfox" >> /usr/share/applications/waterfox.desktop
+  echo "Icon=/usr/share/waterfox/waterfox/browser/icons/mozicon128.png" >> /usr/share/applications/waterfox.desktop
   echo "Categories=Network;WebBrowser;" >> /usr/share/applications/waterfox.desktop
   echo "MimeType=text/html;text/xml;application/xhtml+xml;application/xml;application/rss+xml;application/rdf+xml;image/gif;image/jpeg;image/png;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;x-scheme-handler/chrome;video/webm;application/x-xpinstall;" >> /usr/share/applications/waterfox.desktop
   echo "StartupWMClass=Waterfox" >> /usr/share/applications/waterfox.desktop
