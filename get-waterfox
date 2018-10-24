@@ -1,22 +1,33 @@
 #! /bin/bash
 
 #Check if Parameters are set
-if [ "$1" = "" ]; then
+if [ "$1" = "" ] || [ "$1" = "-h" ]; then
   echo "Welcome to get-waterfox 1.0!"
   echo ""
   echo "Usage:"
-  echo "get-waterfox download"
-  echo "get-waterfox install"
-  echo "get-waterfox update"
-  echo "get-waterfox remove"
+  echo "# get-waterfox init"
+  echo "$ get-waterfox download"
+  echo "# get-waterfox install"
+  echo "$ get-waterfox update"
+  echo "# get-waterfox remove"
+  echo ""
+  echo "Use '-h' to show this help"
+  echo "Please run the commands this way: init; download; install"
+  echo ""
   exit
+fi
+
+#Init Waterfox
+if [ "$1" = "init" ]; then
+  echo "[INIT] Creating folder /usr/share/waterfox"
+  mkdir /usr/share/waterfox
 fi
 
 #Download Waterfox
 if [ "$1" = "download" ]; then
-  echo "[INFO] Downloading Waterfox from GitHub"
+  echo "[INFO] Downloading Waterfox from GitHub to /usr/share/waterfox"
   echo "[INFO] Please stand by ..."
-  wget https://storage-waterfox.netdna-ssl.com/releases/linux64/installer/waterfox-$(curl -s https://api.github.com/repos/MrAlex94/Waterfox/releases/latest | grep tag_name | cut -d '"' -f 4).en-US.linux-x86_64.tar.bz2
+  wget https://storage-waterfox.netdna-ssl.com/releases/linux64/installer/waterfox-$(curl -s https://api.github.com/repos/MrAlex94/Waterfox/releases/latest | grep tag_name | cut -d '"' -f 4).en-US.linux-x86_64.tar.bz2 /usr/share/waterfox
   echo "[ OK ] Now execute: sudo get-waterfox install"
   exit
 fi
@@ -27,14 +38,12 @@ if [ "$1" = "install" ]; then
     echo "[INFO] Please run as root"
     exit
   fi
-  echo "[INSTALLING] $(ls |grep .tar) from $(pwd)"
+  echo "[INSTALLING] $(ls /usr/share/waterfox |grep .tar)"
   echo "[EXTRACTING] Please wait ..."
-  tar -xf *.tar.bz2
-  echo "[INIT] Creating folder /usr/share/waterfox"
-  mkdir /usr/share/waterfox
-  echo "[COPY] Copying Waterfox files"
+  tar -xf /usr/share/waterfox/*.tar.bz2 /usr/share/waterfox/
+  echo "[CLEAN] Cleaning up ..."
   cp waterfox/* /usr/share/waterfox
-  echo "[LINKING] Creating symlinks"
+  echo "[LINKING] Creating symlinks ..."
   ln -s /usr/share/waterfox/waterfox /bin/waterfox
   exit
 fi
