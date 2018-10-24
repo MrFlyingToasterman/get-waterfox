@@ -81,6 +81,19 @@ if [ "$1" = "install" ]; then
   exit
 fi
 
+#Init Waterfox
+if [ "$1" = "remove" ]; then
+if [ "$EUID" != "0" ]; then 
+    echo "[INFO] Please run as root"
+    exit
+  fi
+  echo "[ALERT] Removing folder /usr/share/waterfox"
+  rm -rf /usr/share/waterfox
+  rm /usr/share/applications/waterfox.desktop
+  echo "[READY] Waterfox was completely removed from your System!"
+  exit
+fi
+
 
 #Unkown Input
 echo "Can't understand"
