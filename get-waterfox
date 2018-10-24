@@ -8,7 +8,7 @@ if [ "$1" = "" ] || [ "$1" = "-h" ]; then
   echo "# get-waterfox init"
   echo "$ get-waterfox download"
   echo "# get-waterfox install"
-  echo "$ get-waterfox update"
+  echo "# get-waterfox update"
   echo "# get-waterfox remove"
   echo ""
   echo "Use '-h' to show this help"
@@ -81,7 +81,7 @@ if [ "$1" = "install" ]; then
   exit
 fi
 
-#Init Waterfox
+#Remove Waterfox
 if [ "$1" = "remove" ]; then
 if [ "$EUID" != "0" ]; then 
     echo "[INFO] Please run as root"
@@ -90,12 +90,18 @@ if [ "$EUID" != "0" ]; then
   echo "[ALERT] Removing folder /usr/share/waterfox"
   rm -rf /usr/share/waterfox
   rm /usr/share/applications/waterfox.desktop
+  unlink /bin/waterfox
   echo "[READY] Waterfox was completely removed from your System!"
   exit
 fi
 
-#Download Waterfox
+#Update Waterfox
 if [ "$1" = "update" ]; then
+if [ "$EUID" != "0" ]; then 
+    echo "[INFO] Please run as root"
+    exit
+  fi
+  echo "[UPDATE] Updating Waterfox ..."
   echo "[PREP] Preparing /usr/share/waterfox ..."
   rm -rf /usr/share/waterfox/*
   echo "[INFO] Downloading current Waterfox from waterfoxproject.org to /usr/share/waterfox"
@@ -112,4 +118,4 @@ fi
 
 
 #Unkown Input
-echo "Can't understand"
+echo "Can't understand, plsease use -h for help"

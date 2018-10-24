@@ -15,6 +15,9 @@ Then you can download Waterfox from the official source: <br>
 After that, we are ready to install it: <br>
 `$ sudo get-waterfox install` <br>
 
+# Update Waterfox
+If you wish to update your installed Waterfox, just run:<br>
+`$ sudo get-waterfox update` <br>
 
 # Remove Waterfox
 If you wish to remove Waterfox, just run:<br>
@@ -23,6 +26,10 @@ If you wish to remove Waterfox, just run:<br>
 # Remove this tool
 If you wish to remove this tool, just run:<br>
 `$ sudo ./get-waterfox-remove` <br>
+
+# Personal config
+This tool will not touch any config file you got in `/home/youraccound/.waterfox`! <br>
+Not even on `$ sudo get-waterfox remove` or `$ sudo ./get-waterfox-remove`.
 
 # License
 ![GNU GPLv3 Image](https://www.gnu.org/graphics/gplv3-127x51.png)
