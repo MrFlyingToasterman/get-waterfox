@@ -1,5 +1,24 @@
 # get-waterfox
-Installs Waterfox on every Linux
+Installs Waterfox on every Linux machine, as simple as possible!
+This application is intended for network admins.
+But can also be used for private use without problems.
+
+# Install this tool
+If you wish to install my tool (not needed, it works perfectly without beeing installed), just run: <br>
+`$ sudo ./get-waterfox-install` <br>
+
+# How to use it
+First thing you have to do is to run the init: <br>
+`$ sudo get-waterfox init` <br>
+Then you can download Waterfox from the official source: <br>
+`$ get-waterfox download` <br>
+After that, we are ready to install it: <br>
+`$ sudo get-waterfox install` <br>
+
+
+# Remove Waterfox
+If you wish to remove Waterfox, just run:<br>
+`$ sudo get-waterfox remove` <br>
 
 # License
 ![GNU GPLv3 Image](https://www.gnu.org/graphics/gplv3-127x51.png)
