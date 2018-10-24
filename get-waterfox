@@ -31,7 +31,7 @@ fi
 
 #Download Waterfox
 if [ "$1" = "download" ]; then
-  echo "[INFO] Downloading Waterfox from GitHub to /usr/share/waterfox"
+  echo "[INFO] Downloading current Waterfox from waterfoxproject.org to /usr/share/waterfox"
   echo "[INFO] Please stand by ..."
   wget https://storage-waterfox.netdna-ssl.com/releases/linux64/installer/waterfox-$(curl -s https://api.github.com/repos/MrAlex94/Waterfox/releases/latest | grep tag_name | cut -d '"' -f 4).en-US.linux-x86_64.tar.bz2 -O /usr/share/waterfox/waterfox.tar.bz2
   echo "[ OK ] Now execute: sudo get-waterfox install"
@@ -91,6 +91,22 @@ if [ "$EUID" != "0" ]; then
   rm -rf /usr/share/waterfox
   rm /usr/share/applications/waterfox.desktop
   echo "[READY] Waterfox was completely removed from your System!"
+  exit
+fi
+
+#Download Waterfox
+if [ "$1" = "update" ]; then
+  echo "[PREP] Preparing /usr/share/waterfox ..."
+  rm -rf /usr/share/waterfox/*
+  echo "[INFO] Downloading current Waterfox from waterfoxproject.org to /usr/share/waterfox"
+  echo "[INFO] Please stand by ..."
+  wget https://storage-waterfox.netdna-ssl.com/releases/linux64/installer/waterfox-$(curl -s https://api.github.com/repos/MrAlex94/Waterfox/releases/latest | grep tag_name | cut -d '"' -f 4).en-US.linux-x86_64.tar.bz2 -O /usr/share/waterfox/waterfox.tar.bz2
+  echo "[ OK ] Download ready!"
+  echo "[EXTRACTING] Please wait ..."
+  tar -xf /usr/share/waterfox/waterfox.tar.bz2 -C /usr/share/waterfox/
+  echo "[CLEAN] Cleaning up ..."
+  rm /usr/share/waterfox/waterfox.tar.bz2
+  echo "[DONE] Update ready!"
   exit
 fi
 
