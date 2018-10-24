@@ -46,7 +46,7 @@ if [ "$1" = "install" ]; then
   fi
   echo "[INSTALLING] $(ls /usr/share/waterfox |grep .tar)"
   echo "[EXTRACTING] Please wait ..."
-  tar -xf /usr/share/waterfox/waterfox.tar.bz2 /usr/share/waterfox/
+  tar -xf /usr/share/waterfox/waterfox.tar.bz2
   echo "[CLEAN] Cleaning up ..."
   rm /usr/share/waterfox.tar.bz2
   echo "[LINKING] Creating symlinks ..."
