@@ -22,11 +22,11 @@ if [ "$1" = "download" ]; then
 fi
 
 #Install Waterfox
-if [ "$EUID" -ne 0 ] then 
-  echo "[INFO] Please run as root"
-  exit
-fi
 if [ "$1" = "install" ]; then
+  if [ "$EUID" -ne 0 ] then 
+    echo "[INFO] Please run as root"
+    exit
+  fi
   echo "[INSTALLING] $(ls |grep .tar) from $(pwd)"
   echo "[EXTRACTING] Please wait ..."
   tar -xf *.tar.bz2
