@@ -33,7 +33,7 @@ fi
 if [ "$1" = "download" ]; then
   echo "[INFO] Downloading Waterfox from GitHub to /usr/share/waterfox"
   echo "[INFO] Please stand by ..."
-  wget https://storage-waterfox.netdna-ssl.com/releases/linux64/installer/waterfox-$(curl -s https://api.github.com/repos/MrAlex94/Waterfox/releases/latest | grep tag_name | cut -d '"' -f 4).en-US.linux-x86_64.tar.bz2 /usr/share/waterfox
+  wget https://storage-waterfox.netdna-ssl.com/releases/linux64/installer/waterfox-$(curl -s https://api.github.com/repos/MrAlex94/Waterfox/releases/latest | grep tag_name | cut -d '"' -f 4).en-US.linux-x86_64.tar.bz2 -o /usr/share/waterfox/waterfox.tar.bz2
   echo "[ OK ] Now execute: sudo get-waterfox install"
   exit
 fi
@@ -46,9 +46,9 @@ if [ "$1" = "install" ]; then
   fi
   echo "[INSTALLING] $(ls /usr/share/waterfox |grep .tar)"
   echo "[EXTRACTING] Please wait ..."
-  tar -xf /usr/share/waterfox/*.tar.bz2 /usr/share/waterfox/
+  tar -xf /usr/share/waterfox/waterfox.tar.bz2 /usr/share/waterfox/
   echo "[CLEAN] Cleaning up ..."
-  cp waterfox/* /usr/share/waterfox
+  rm /usr/share/waterfox.tar.bz2
   echo "[LINKING] Creating symlinks ..."
   ln -s /usr/share/waterfox/waterfox /bin/waterfox
   exit
