@@ -5,16 +5,23 @@ if [ "$1" = "" ] || [ "$1" = "-h" ]; then
   echo "Welcome to get-waterfox 1.0!"
   echo ""
   echo "Usage:"
+  echo ""
+  echo "Create Waterfox dir:"
   echo "# get-waterfox init"
+  echo ""
+  echo "First installation"
   echo "$ get-waterfox download"
   echo "# get-waterfox install"
+  echo ""
+  echo "General commands"
   echo "# get-waterfox update"
+  echo "$ get-waterfox cleanup"
+  echo ""
+  echo "Remove Waterfox"
   echo "# get-waterfox remove"
-  echo "# get-waterfox cleanup"
   echo ""
   echo "Use '-h' to show this help"
   echo "Please run the commands this way: init; download; install"
-  echo ""
   exit
 fi
 
@@ -32,8 +39,12 @@ fi
 
 #Download Waterfox
 if [ "$1" = "download" ]; then
-  echo "[CLEAN] Cleaning up ..."
-  rm /usr/share/waterfox/*.tar.bz2
+  if [ -e "/usr/share/waterfox/waterfox.tar.bz2" ]; then
+    echo "[CLEAN] Cleaning up ..."
+    rm /usr/share/waterfox/waterfox.tar.bz2
+  else 
+    echo "[INFO] Cache is already clean!"
+  fi 
   echo "[INFO] Downloading current Waterfox from waterfoxproject.org to /usr/share/waterfox"
   echo "[INFO] Please stand by ..."
   wget https://storage-waterfox.netdna-ssl.com/releases/linux64/installer/waterfox-$(curl -s https://api.github.com/repos/MrAlex94/Waterfox/releases/latest | grep tag_name | cut -d '"' -f 4).en-US.linux-x86_64.tar.bz2 -O /usr/share/waterfox/waterfox.tar.bz2
@@ -124,12 +135,13 @@ fi
 
 #Cleanup Waterfox
 if [ "$1" = "cleanup" ]; then
-if [ "$EUID" != "0" ]; then 
-    echo "[INFO] Please run as root"
-    exit
-  fi
-  echo "[WARN] Deleted cache copy of Waterfox tarball!"
-  rm /usr/share/waterfox/waterfox.tar.bz2
+  if [ -e "/usr/share/waterfox/waterfox.tar.bz2" ]; then
+    echo "[CLEAN] Cleaning up ..."
+    rm /usr/share/waterfox/waterfox.tar.bz2
+  else 
+    echo "[INFO] Cache is already clean!"
+  fi 
+  echo "[ OK ] Done!"
   exit
 fi
 

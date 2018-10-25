@@ -10,6 +10,8 @@ If you wish to install my tool (not needed, it works perfectly without beeing in
 # How to use it
 First thing you have to do is to run the init: <br>
 `$ sudo get-waterfox init` <br>
+This will create the folder `/usr/share/waterfox`, you only have to execute it once. <br>
+<br>
 Then you can download Waterfox from the official source: <br>
 `$ get-waterfox download` <br>
 After that, we are ready to install it: <br>
@@ -19,9 +21,14 @@ After that, we are ready to install it: <br>
 If you wish to update your installed Waterfox, just run:<br>
 `$ sudo get-waterfox update` <br>
 
+# Cleanup your cache
+If you wish to remove the cache copy of the Waterfox tarball in `/usr/share/waterfox`, just run:<br>
+`$ sudo get-waterfox cleanup` <br>
+
 # Remove Waterfox
 If you wish to remove Waterfox, just run:<br>
 `$ sudo get-waterfox remove` <br>
+This will remove `/usr/share/waterfox` too. If you want to install Waterfox again, you need to execute `init` first. <br>
 
 # Remove this tool
 If you wish to remove this tool, just run:<br>
