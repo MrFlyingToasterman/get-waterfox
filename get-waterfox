@@ -10,6 +10,7 @@ if [ "$1" = "" ] || [ "$1" = "-h" ]; then
   echo "# get-waterfox install"
   echo "# get-waterfox update"
   echo "# get-waterfox remove"
+  echo "# get-waterfox cleanup"
   echo ""
   echo "Use '-h' to show this help"
   echo "Please run the commands this way: init; download; install"
@@ -31,6 +32,8 @@ fi
 
 #Download Waterfox
 if [ "$1" = "download" ]; then
+  echo "[CLEAN] Cleaning up ..."
+  rm /usr/share/waterfox/*.tar.bz2
   echo "[INFO] Downloading current Waterfox from waterfoxproject.org to /usr/share/waterfox"
   echo "[INFO] Please stand by ..."
   wget https://storage-waterfox.netdna-ssl.com/releases/linux64/installer/waterfox-$(curl -s https://api.github.com/repos/MrAlex94/Waterfox/releases/latest | grep tag_name | cut -d '"' -f 4).en-US.linux-x86_64.tar.bz2 -O /usr/share/waterfox/waterfox.tar.bz2
@@ -47,8 +50,6 @@ if [ "$1" = "install" ]; then
   echo "[INSTALLING] $(ls /usr/share/waterfox |grep .tar)"
   echo "[EXTRACTING] Please wait ..."
   tar -xf /usr/share/waterfox/waterfox.tar.bz2 -C /usr/share/waterfox/
-  echo "[CLEAN] Cleaning up ..."
-  rm /usr/share/waterfox/waterfox.tar.bz2
   echo "[LINKING] Creating symlinks ..."
   ln -s /usr/share/waterfox/waterfox/waterfox /bin/waterfox
   echo "[LINKING] Creating starter in /usr/share/applications"
@@ -78,6 +79,11 @@ if [ "$1" = "install" ]; then
   echo "[Desktop Action NewPrivateWindow]" >> /usr/share/applications/waterfox.desktop
   echo "Name=Open a New Private Window" >> /usr/share/applications/waterfox.desktop
   echo "Exec=waterfox -private-window" >> /usr/share/applications/waterfox.desktop
+  echo ""
+  echo "[INFO] Installation done!"
+  echo "[WARN] A cache copy of the Waterfox tarball still exist!"
+  echo "[INFO] You can clean the cache now by running: 'sudo get-waterfox cleanup'"
+  echo "[INFO] Otherweise you can allways use 'get-waterfox download' to overwrite the old cache copy with a new one."
   exit
 fi
 
@@ -113,6 +119,17 @@ if [ "$EUID" != "0" ]; then
   echo "[CLEAN] Cleaning up ..."
   rm /usr/share/waterfox/waterfox.tar.bz2
   echo "[DONE] Update ready!"
+  exit
+fi
+
+#Cleanup Waterfox
+if [ "$1" = "cleanup" ]; then
+if [ "$EUID" != "0" ]; then 
+    echo "[INFO] Please run as root"
+    exit
+  fi
+  echo "[WARN] Deleted cache copy of Waterfox tarball!"
+  rm /usr/share/waterfox/waterfox.tar.bz2
   exit
 fi
 
