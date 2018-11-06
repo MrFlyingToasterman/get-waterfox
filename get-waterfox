@@ -31,25 +31,34 @@ if [ "$EUID" != "0" ]; then
     echo "[INFO] Please run as root"
     exit
   fi
-  echo "[INIT] Creating folder /usr/share/waterfox"
+  echo "[INIT] Creating working folder /usr/share/waterfox"
   mkdir /usr/share/waterfox
-  echo "[INIT] Alter rights in /usr/share/waterfox to 776"
+  echo "[INIT] Creating data folder /usr/share/waterfox"
+  mkdir /usr/share/waterfox-data
+  echo "[INIT] Alter rights in working & data dir's to 776"
   chmod 776 /usr/share/waterfox --recursive
+  chmod 776 /usr/share/waterfox-data --recursive
+  echo "[INIT] Creating localversion file"
+  touch /usr/share/waterfox-data/localversion
+  echo "[INIT] Alter rights for localversion file to 776"
+  chmod 776 /usr/share/waterfox-data/localversion
   exit
 fi
 
 #Download Waterfox
 if [ "$1" = "download" ]; then
-  if [ -e "/usr/share/waterfox/waterfox.tar.bz2" ]; then
+  if [ -e "/usr/share/waterfox-data/waterfox.tar.bz2" ]; then
     echo "[CLEAN] Cleaning up ..."
-    rm /usr/share/waterfox/waterfox.tar.bz2
+    rm /usr/share/waterfox-data/waterfox.tar.bz2
   else 
     echo "[INFO] Cache is already clean!"
   fi 
-  echo "[INFO] Downloading current Waterfox from waterfoxproject.org to /usr/share/waterfox"
+  echo "[INFO] Downloading current Waterfox from waterfoxproject.org to /usr/share/waterfox-data"
   echo "[INFO] Please stand by ..."
-  #wget https://storage-waterfox.netdna-ssl.com/releases/linux64/installer/waterfox-$(curl -s https://api.github.com/repos/MrAlex94/Waterfox/releases/latest | grep tag_name | cut -d '"' -f 4).en-US.linux-x86_64.tar.bz2 -O /usr/share/waterfox/waterfox.tar.bz2
-  wget $(curl https://waterfoxproject.org/en-US/ |grep -Eo "(https)://[a-zA-Z0-9./?=_-]*" |sort |grep linux64 |uniq) -O /usr/share/waterfox/waterfox.tar.bz2
+  wget $(curl https://waterfoxproject.org/en-US/ |grep -Eo "(https)://[a-zA-Z0-9./?=_-]*" |sort |grep linux64 |uniq) -O /usr/share/waterfox-data/waterfox.tar.bz2
+  echo "[INFO] Download ready!"
+  echo "[INFO] Setup localversion file"
+  echo "$(curl https://waterfoxproject.org/en-US/ |grep -Eo "(https)://[a-zA-Z0-9./?=_-]*" |sort |grep linux64 |uniq) -O /usr/share/waterfox-data/waterfox.tar.bz2" > /usr/share/waterfox-data/localversion
   echo "[ OK ] Now execute: sudo get-waterfox install"
   exit
 fi
@@ -60,9 +69,9 @@ if [ "$1" = "install" ]; then
     echo "[INFO] Please run as root"
     exit
   fi
-  echo "[INSTALLING] $(ls /usr/share/waterfox |grep .tar)"
+  echo "[INSTALLING] $(ls /usr/share/waterfox-data/ |grep .tar)"
   echo "[EXTRACTING] Please wait ..."
-  tar -xf /usr/share/waterfox/waterfox.tar.bz2 -C /usr/share/waterfox/
+  tar -xf /usr/share/waterfox-data/waterfox.tar.bz2 -C /usr/share/waterfox/
   echo "[LINKING] Creating symlinks ..."
   ln -s /usr/share/waterfox/waterfox/waterfox /bin/waterfox
   echo "[LINKING] Creating starter in /usr/share/applications"
@@ -108,7 +117,11 @@ if [ "$EUID" != "0" ]; then
   fi
   echo "[ALERT] Removing folder /usr/share/waterfox"
   rm -rf /usr/share/waterfox
+  echo "[ALERT] Removing folder /usr/share/waterfox-data"
+  rm -rf /usr/share/waterfox-data
+  echo "[ALERT] Removing starter from /usr/share/applications"
   rm /usr/share/applications/waterfox.desktop
+  echo "[ALERT] Removing symlinks"
   unlink /bin/waterfox
   echo "[READY] Waterfox was completely removed from your System!"
   exit
@@ -116,22 +129,37 @@ fi
 
 #Update Waterfox
 if [ "$1" = "update" ]; then
-if [ "$EUID" != "0" ]; then 
+  if [ "$EUID" != "0" ]; then 
     echo "[INFO] Please run as root"
     exit
   fi
-  echo "[UPDATE] Updating Waterfox ..."
+  echo "[UPDATE] Waterfox update started!"
+  echo "[INFO] Searching for new version ..."
+  echo "[INFO] Checking localversion file ..."
+  localversion="$(cat /usr/share/waterfox-data/localversion)"
+  echo "[INFO] Checking remote version(s) ..."
+  remoteversion="$(curl https://waterfoxproject.org/en-US/ |grep -Eo "(https)://[a-zA-Z0-9./?=_-]*" |sort |grep linux64 |uniq) -O /usr/share/waterfox/waterfox.tar.bz2"
+  if [ "$localversion" == "$remoteversion" ]; then 
+    echo "[INFO] The latest version is already installed!"
+    exit
+  fi
+  echo "[INFO] New version found!"
   echo "[PREP] Preparing /usr/share/waterfox ..."
   rm -rf /usr/share/waterfox/*
-  echo "[INFO] Downloading current Waterfox from waterfoxproject.org to /usr/share/waterfox"
+  echo "[PREP] Preparing /usr/share/waterfox-data ..."
+  rm -rf /usr/share/waterfox-data/waterfox.tar.bz2
+  echo "[INFO] Downloading current Waterfox from waterfoxproject.org to /usr/share/waterfox-data"
   echo "[INFO] Please stand by ..."
-  wget $(curl https://waterfoxproject.org/en-US/ |grep -Eo "(https)://[a-zA-Z0-9./?=_-]*" |sort |grep linux64 |uniq) -O /usr/share/waterfox/waterfox.tar.bz2
+  wget $remoteversion -O /usr/share/waterfox-data/waterfox.tar.bz2
   echo "[ OK ] Download ready!"
   echo "[EXTRACTING] Please wait ..."
-  tar -xf /usr/share/waterfox/waterfox.tar.bz2 -C /usr/share/waterfox/
-  echo "[CLEAN] Cleaning up ..."
-  rm /usr/share/waterfox/waterfox.tar.bz2
+  tar -xf /usr/share/waterfox-data/waterfox.tar.bz2 -C /usr/share/waterfox/
+  echo "[INFO] Updating localversion file"
+  echo "$remoteversion" > /usr/share/waterfox-data/localversion
   echo "[DONE] Update ready!"
+  echo "[WARN] A cache copy of the Waterfox tarball still exist!"
+  echo "[INFO] You can clean the cache now by running: 'sudo get-waterfox cleanup'"
+  echo "[INFO] Otherweise you can allways use 'get-waterfox download' to overwrite the old cache copy with a new one."
   exit
 fi
 
@@ -139,7 +167,7 @@ fi
 if [ "$1" = "cleanup" ]; then
   if [ -e "/usr/share/waterfox/waterfox.tar.bz2" ]; then
     echo "[CLEAN] Cleaning up ..."
-    rm /usr/share/waterfox/waterfox.tar.bz2
+    rm /usr/share/waterfox-data/waterfox.tar.bz2
   else 
     echo "[INFO] Cache is already clean!"
   fi 
