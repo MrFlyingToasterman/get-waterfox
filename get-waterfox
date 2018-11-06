@@ -33,7 +33,8 @@ if [ "$EUID" != "0" ]; then
   fi
   echo "[INIT] Creating folder /usr/share/waterfox"
   mkdir /usr/share/waterfox
-  chmod 777 /usr/share/waterfox --recursive
+  echo "[INIT] Alter rights in /usr/share/waterfox to 776"
+  chmod 776 /usr/share/waterfox --recursive
   exit
 fi
 
@@ -47,7 +48,8 @@ if [ "$1" = "download" ]; then
   fi 
   echo "[INFO] Downloading current Waterfox from waterfoxproject.org to /usr/share/waterfox"
   echo "[INFO] Please stand by ..."
-  wget https://storage-waterfox.netdna-ssl.com/releases/linux64/installer/waterfox-$(curl -s https://api.github.com/repos/MrAlex94/Waterfox/releases/latest | grep tag_name | cut -d '"' -f 4).en-US.linux-x86_64.tar.bz2 -O /usr/share/waterfox/waterfox.tar.bz2
+  #wget https://storage-waterfox.netdna-ssl.com/releases/linux64/installer/waterfox-$(curl -s https://api.github.com/repos/MrAlex94/Waterfox/releases/latest | grep tag_name | cut -d '"' -f 4).en-US.linux-x86_64.tar.bz2 -O /usr/share/waterfox/waterfox.tar.bz2
+  wget $(curl https://waterfoxproject.org/en-US/ |grep -Eo "(https)://[a-zA-Z0-9./?=_-]*" |sort |grep linux64 |uniq) -O /usr/share/waterfox/waterfox.tar.bz2
   echo "[ OK ] Now execute: sudo get-waterfox install"
   exit
 fi
@@ -123,7 +125,7 @@ if [ "$EUID" != "0" ]; then
   rm -rf /usr/share/waterfox/*
   echo "[INFO] Downloading current Waterfox from waterfoxproject.org to /usr/share/waterfox"
   echo "[INFO] Please stand by ..."
-  wget https://storage-waterfox.netdna-ssl.com/releases/linux64/installer/waterfox-$(curl -s https://api.github.com/repos/MrAlex94/Waterfox/releases/latest | grep tag_name | cut -d '"' -f 4).en-US.linux-x86_64.tar.bz2 -O /usr/share/waterfox/waterfox.tar.bz2
+  wget $(curl https://waterfoxproject.org/en-US/ |grep -Eo "(https)://[a-zA-Z0-9./?=_-]*" |sort |grep linux64 |uniq) -O /usr/share/waterfox/waterfox.tar.bz2
   echo "[ OK ] Download ready!"
   echo "[EXTRACTING] Please wait ..."
   tar -xf /usr/share/waterfox/waterfox.tar.bz2 -C /usr/share/waterfox/
