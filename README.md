@@ -24,7 +24,7 @@ If you only wish to check if there is an update for waterfox: <br>
 `$ sudo get-waterfox checkupdate` <br>
 
 # Cleanup your cache
-If you wish to remove the cache copy of the Waterfox tarball in `/usr/share/waterfox`, just run:<br>
+If you wish to remove the cache copy of the Waterfox tarball in `/usr/share/waterfox-data`, just run:<br>
 `$ sudo get-waterfox cleanup` <br>
 
 # Remove Waterfox
