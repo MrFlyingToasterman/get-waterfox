@@ -1,6 +1,6 @@
 #! /bin/bash
 
-version="1.3"
+version="1.4"
 
 #Check if Parameters are set
 if [ "$1" = "" ] || [ "$1" = "-h" ]; then
@@ -31,7 +31,7 @@ fi
 
 #Init Waterfox
 if [ "$1" = "init" ] || [ "$1" = "-I" ]; then
-if [ "$EUID" != "0" ]; then 
+if [ "$EUID" != "0" ]; then
     echo "[INFO] Please run as root"
     exit
   fi
@@ -54,11 +54,11 @@ if [ "$1" = "download" ] || [ "$1" = "-d" ]; then
   if [ -e "/usr/share/waterfox-data/waterfox.tar.bz2" ]; then
     echo "[CLEAN] Cleaning up ..."
     rm /usr/share/waterfox-data/waterfox.tar.bz2
-  else 
+  else
     echo "[INFO] Cache is already clean!"
-  fi 
+  fi
   echo "[INFO] Downloading current Waterfox from waterfoxproject.org to /usr/share/waterfox-data"
-  remoteversion="$(curl https://waterfoxproject.org/en-US/ |grep -Eo "(https)://[a-zA-Z0-9./?=_-]*" |sort |grep linux64 |uniq) -O /usr/share/waterfox/waterfox.tar.bz2"
+  remoteversion="$(curl https://www.waterfox.net/releases/ |grep -Eo "(https)://[a-zA-Z0-9./?=_-]*" |sort |grep linux64 |uniq)"
   echo "[INFO] Please stand by ..."
   wget $remoteversion -O /usr/share/waterfox-data/waterfox.tar.bz2
   echo "[INFO] Download ready!"
@@ -71,7 +71,7 @@ fi
 
 #Install Waterfox
 if [ "$1" = "install" ] || [ "$1" = "-i" ]; then
-  if [ "$EUID" != "0" ]; then 
+  if [ "$EUID" != "0" ]; then
     echo "[INFO] Please run as root"
     exit
   fi
@@ -118,7 +118,7 @@ fi
 
 #Remove Waterfox
 if [ "$1" = "remove" ] || [ "$1" = "-r" ]; then
-if [ "$EUID" != "0" ]; then 
+if [ "$EUID" != "0" ]; then
     echo "[INFO] Please run as root"
     exit
   fi
@@ -136,7 +136,7 @@ fi
 
 #Update Waterfox
 if [ "$1" = "update" ] || [ "$1" = "-u" ]; then
-  if [ "$EUID" != "0" ]; then 
+  if [ "$EUID" != "0" ]; then
     echo "[INFO] Please run as root"
     exit
   fi
@@ -145,8 +145,8 @@ if [ "$1" = "update" ] || [ "$1" = "-u" ]; then
   echo "[INFO] Checking localversion file ..."
   localversion="$(cat /usr/share/waterfox-data/localversion)"
   echo "[INFO] Checking remote version(s) ..."
-  remoteversion="$(curl https://waterfoxproject.org/en-US/ |grep -Eo "(https)://[a-zA-Z0-9./?=_-]*" |sort |grep linux64 |uniq) -O /usr/share/waterfox/waterfox.tar.bz2"
-  if [ "$localversion" == "$remoteversion" ]; then 
+  remoteversion="$(curl https://www.waterfox.net/releases/ |grep -Eo "(https)://[a-zA-Z0-9./?=_-]*" |sort |grep linux64 |uniq)"
+  if [ "$localversion" == "$remoteversion" ]; then
     echo "[INFO] The latest version is already installed!"
     exit
   fi
@@ -175,9 +175,9 @@ if [ "$1" = "cleanup" ] || [ "$1" = "-C" ]; then
   if [ -e "/usr/share/waterfox/waterfox.tar.bz2" ]; then
     echo "[CLEAN] Cleaning up ..."
     rm /usr/share/waterfox-data/waterfox.tar.bz2
-  else 
+  else
     echo "[INFO] Cache is already clean!"
-  fi 
+  fi
   echo "[ OK ] Done!"
   exit
 fi
@@ -188,8 +188,8 @@ if [ "$1" = "checkupdate" ] || [ "$1" = "-c" ]; then
   echo "[INFO] Checking localversion file ..."
   localversion="$(cat /usr/share/waterfox-data/localversion)"
   echo "[INFO] Checking remote version(s) ..."
-  remoteversion="$(curl https://waterfoxproject.org/en-US/ |grep -Eo "(https)://[a-zA-Z0-9./?=_-]*" |sort |grep linux64 |uniq) -O /usr/share/waterfox/waterfox.tar.bz2"
-  if [ "$localversion" == "$remoteversion" ]; then 
+  remoteversion="$(curl https://www.waterfox.net/releases/ |grep -Eo "(https)://[a-zA-Z0-9./?=_-]*" |sort |grep linux64 |uniq)"
+  if [ "$localversion" == "$remoteversion" ]; then
     echo "[INFO] The latest version is already installed!"
     exit
   fi
