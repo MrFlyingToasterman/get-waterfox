@@ -1,6 +1,6 @@
 #! /bin/bash
 
-version="1.4"
+version="1.5"
 
 #Check if Parameters are set
 if [ "$1" = "" ] || [ "$1" = "-h" ]; then
@@ -79,7 +79,7 @@ if [ "$1" = "install" ] || [ "$1" = "-i" ]; then
   echo "[EXTRACTING] Please wait ..."
   tar -xf /usr/share/waterfox-data/waterfox.tar.bz2 -C /usr/share/waterfox/
   echo "[LINKING] Creating symlinks ..."
-  ln -s /usr/share/waterfox/waterfox/waterfox /bin/waterfox
+  ln -s /usr/share/waterfox/waterfox-classic/waterfox /bin/waterfox
   echo "[LINKING] Creating starter in /usr/share/applications"
   touch /usr/share/applications/waterfox.desktop
   echo "[Desktop Entry]" > /usr/share/applications/waterfox.desktop
