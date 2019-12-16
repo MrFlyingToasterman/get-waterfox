@@ -145,7 +145,7 @@ if [ "$1" = "update" ] || [ "$1" = "-u" ]; then
   echo "[INFO] Checking localversion file ..."
   localversion="$(cat /usr/share/waterfox-data/localversion)"
   echo "[INFO] Checking remote version(s) ..."
-  remoteversion="$(curl https://www.waterfox.net/releases/ |grep -Eo "(https)://[a-zA-Z0-9./?=_-]*" |sort |grep linux64 |uniq)"
+  remoteversion="$(curl https://www.waterfox.net/releases/ |grep -Eo "(https)://[a-zA-Z0-9./?=_-]*" |sort |grep linux64 |uniq |grep classic)"
   if [ "$localversion" == "$remoteversion" ]; then
     echo "[INFO] The latest version is already installed!"
     exit
@@ -188,7 +188,7 @@ if [ "$1" = "checkupdate" ] || [ "$1" = "-c" ]; then
   echo "[INFO] Checking localversion file ..."
   localversion="$(cat /usr/share/waterfox-data/localversion)"
   echo "[INFO] Checking remote version(s) ..."
-  remoteversion="$(curl https://www.waterfox.net/releases/ |grep -Eo "(https)://[a-zA-Z0-9./?=_-]*" |sort |grep linux64 |uniq)"
+  remoteversion="$(curl https://www.waterfox.net/releases/ |grep -Eo "(https)://[a-zA-Z0-9./?=_-]*" |sort |grep linux64 |uniq |grep classic)"
   if [ "$localversion" == "$remoteversion" ]; then
     echo "[INFO] The latest version is already installed!"
     exit
