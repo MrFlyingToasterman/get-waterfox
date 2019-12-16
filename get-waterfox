@@ -58,7 +58,7 @@ if [ "$1" = "download" ] || [ "$1" = "-d" ]; then
     echo "[INFO] Cache is already clean!"
   fi
   echo "[INFO] Downloading current Waterfox from waterfoxproject.org to /usr/share/waterfox-data"
-  remoteversion="$(curl https://www.waterfox.net/releases/ |grep -Eo "(https)://[a-zA-Z0-9./?=_-]*" |sort |grep linux64 |uniq)"
+  remoteversion="$(curl https://www.waterfox.net/releases/ |grep -Eo "(https)://[a-zA-Z0-9./?=_-]*" |sort |grep linux64 |uniq |grep classic)"
   echo "[INFO] Please stand by ..."
   wget $remoteversion -O /usr/share/waterfox-data/waterfox.tar.bz2
   echo "[INFO] Download ready!"
