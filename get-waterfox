@@ -1,6 +1,6 @@
 #! /bin/bash
 
-version="1.5.1"
+version="1.5.2"
 
 #Check if Parameters are set
 if [ "$1" = "" ] || [ "$1" = "-h" ]; then
@@ -95,7 +95,7 @@ if [ "$1" = "install" ] || [ "$1" = "-i" ]; then
   echo "Type=Application" >> /usr/share/applications/waterfox.desktop
   echo "Icon=/usr/share/waterfox/waterfox-classic/browser/chrome/icons/default/default128.png" >> /usr/share/applications/waterfox.desktop
   echo "Categories=Network;WebBrowser;" >> /usr/share/applications/waterfox.desktop
-  echo "MimeType=text/html;text/xml;application/xhtml+xml;application/xml;application/rss+xml;application/rdf+xml;image/gif;image/jpeg;image/png;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp;x-scheme-handler/chrome;video/webm;application/x-xpinstall;" >> /usr/share/applications/waterfox.desktop
+  echo "MimeType=text/html;text/xml;application/xhtml+xml;application/xml;application/rss+xml;application/rdf+xml;image/gif;image/jpeg;image/png;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/chrome;video/webm;application/x-xpinstall;" >> /usr/share/applications/waterfox.desktop
   echo "StartupWMClass=Waterfox" >> /usr/share/applications/waterfox.desktop
   echo "StartupNotify=true" >> /usr/share/applications/waterfox.desktop
   echo "Actions=NewWindow;NewPrivateWindow;" >> /usr/share/applications/waterfox.desktop
