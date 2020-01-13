@@ -23,6 +23,12 @@ If you wish to update your installed Waterfox, just run:<br>
 If you only wish to check if there is an update for waterfox: <br>
 `$ sudo get-waterfox checkupdate` <br>
 
+# Target Waterfox
+You can choose if you want to use Waterfox Classic or Current<br>
+`$ get-waterfox target classic` <br>
+or <br>
+`$ get-waterfox target current`<br>
+
 # Cleanup your cache
 If you wish to remove the cache copy of the Waterfox tarball in `/usr/share/waterfox-data`, just run:<br>
 `$ sudo get-waterfox cleanup` <br>
@@ -42,6 +48,12 @@ If you wish to remove this tool, just run:<br>
     <td>init</td> <td>-I</td>
   </tr>  
   <tr>
+    <td>target</td> <td>-t</td>
+  </tr>  
+  <tr>
+    <td>showtarget</td> <td>-s</td>
+  </tr>  
+  <tr>
     <td>download</td> <td>-d</td>
   </tr>  
   <tr>
@@ -58,7 +70,7 @@ If you wish to remove this tool, just run:<br>
   </tr>  
   <tr>
     <td>remove</td> <td>-r</td>
-  </tr>  
+  </tr>
 </table>
 
 # Personal config
