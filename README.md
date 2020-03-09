@@ -14,6 +14,8 @@ This will create the folders `/usr/share/waterfox` & `/usr/share/waterfox-data`,
 <br>
 Then you can download Waterfox from the official source: <br>
 `$ get-waterfox download` <br>
+With testrun you can check whether the new version works (optional) <br>
+`$ get-waterfox testrun` <br>
 After that, we are ready to install it: <br>
 `$ sudo get-waterfox install` <br>
 
@@ -55,6 +57,9 @@ If you wish to remove this tool, just run:<br>
   </tr>  
   <tr>
     <td>download</td> <td>-d</td>
+  </tr>
+  <tr>
+    <td>testrun</td> <td>-T</td>
   </tr>  
   <tr>
     <td>install</td> <td>-i</td>
