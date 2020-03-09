@@ -1,6 +1,6 @@
 #! /bin/bash
 
-version="1.6"
+version="1.7"
 
 #Check if Parameters are set
 if [ "$1" = "" ] || [ "$1" = "-h" ]; then
@@ -24,6 +24,7 @@ if [ "$1" = "" ] || [ "$1" = "-h" ]; then
   echo "# get-waterfox update >>> Update Waterfox >>> -u"
   echo "$ get-waterfox cleanup >>> Delete old waterfox tarball >>> -C"
   echo "$ get-waterfox checkupdate >>> Shows if a Waterfox update is available >>> -c"
+  echo "$ get-waterfox testrun >>> Test functionality before installation >>> -T"
   echo "$ get-waterfox version >>> Print version of get-waterfox >>> -v"
   echo ""
   echo "Remove Waterfox"
@@ -90,7 +91,7 @@ if [ "$1" = "download" ] || [ "$1" = "-d" ]; then
   fi
   target="$(cat /usr/share/waterfox-data/target)"
   echo "[INFO] Downloading $(cat /usr/share/waterfox-data/target) Waterfox from waterfoxproject.org to /usr/share/waterfox-data"
-  remoteversion="$(curl https://www.waterfox.net/releases/ |grep -Eo "(https)://[a-zA-Z0-9./?=_-]*" |sort |grep linux64 |uniq |grep $(cat /usr/share/waterfox-data/target) )"
+  remoteversion="$(curl https://www.waterfox.net/download/ |grep -Eo "(https)://[a-zA-Z0-9./?=_-]*" |sort |grep linux64 |uniq |grep $(cat /usr/share/waterfox-data/target) )"
   echo "[INFO] Please stand by ..."
   wget $remoteversion -O /usr/share/waterfox-data/waterfox.tar.bz2
   echo "[INFO] Download ready!"
@@ -184,7 +185,7 @@ if [ "$1" = "update" ] || [ "$1" = "-u" ]; then
   echo "[INFO] Checking localversion file ..."
   localversion="$(cat /usr/share/waterfox-data/localversion)"
   echo "[INFO] Checking remote version(s) ..."
-  remoteversion="$(curl https://www.waterfox.net/releases/ |grep -Eo "(https)://[a-zA-Z0-9./?=_-]*" |sort |grep linux64 |uniq |grep $(cat /usr/share/waterfox-data/target) )"
+  remoteversion="$(curl https://www.waterfox.net/download/ |grep -Eo "(https)://[a-zA-Z0-9./?=_-]*" |sort |grep linux64 |uniq |grep $(cat /usr/share/waterfox-data/target) )"
   if [ "$localversion" == "$remoteversion" ]; then
     echo "[INFO] The latest version is already installed!"
     exit
@@ -227,13 +228,36 @@ if [ "$1" = "checkupdate" ] || [ "$1" = "-c" ]; then
   echo "[INFO] Checking localversion file ..."
   localversion="$(cat /usr/share/waterfox-data/localversion)"
   echo "[INFO] Checking remote version(s) ..."
-  remoteversion="$(curl https://www.waterfox.net/releases/ |grep -Eo "(https)://[a-zA-Z0-9./?=_-]*" |sort |grep linux64 |uniq |grep $(cat /usr/share/waterfox-data/target) )"
+  remoteversion="$(curl https://www.waterfox.net/download/ |grep -Eo "(https)://[a-zA-Z0-9./?=_-]*" |sort |grep linux64 |uniq |grep $(cat /usr/share/waterfox-data/target) )"
   if [ "$localversion" == "$remoteversion" ]; then
     echo "[INFO] The latest version is already installed!"
     exit
   fi
   echo "[INFO] New version found!"
   echo "[INFO] You can update your Waterfox by running: sudo get-waterfox update"
+  exit
+fi
+
+#Testrun
+if [ "$1" = "testrun" ] || [ "$1" = "-T" ]; then
+  echo "[INFO] Executing Pre Installation Testrun ..."
+  echo "[ENV]"
+  echo "[INFO] get-waterfox $version"
+  echo "[INFO] Target: $(cat /usr/share/waterfox-data/target)"
+  echo "[INFO] Source: $(cat /usr/share/waterfox-data/localversion)"
+  echo "[INFO] Time: $(date)"
+  echo "[INFO] Machine: $(uname -a)"
+  echo "[INFO] Path: /usr/share/waterfox-data/"
+  echo "[INFO] Creating testing dir"
+  mkdir /usr/share/waterfox-data/test
+  echo "[EXTRACTING] Please wait ..."
+  tar -xvf /usr/share/waterfox-data/waterfox.tar.bz2 -C /usr/share/waterfox-data/test/
+  echo "[INFO] Running Waterfox ..."
+  /usr/share/waterfox-data/test/waterfox-$(cat /usr/share/waterfox-data/target)/waterfox
+  echo "[INFO] Removing testing dir ..."
+  rm -rf /usr/share/waterfox-data/test/
+  echo "[INFO] Testing ready."
+  echo "[INFO] If Waterfox was working correctly its safe to execute $ sudo get-waterfox install"
   exit
 fi
 
