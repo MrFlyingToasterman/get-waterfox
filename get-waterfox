@@ -1,6 +1,6 @@
 #! /bin/bash
 
-version="1.7"
+version="1.8"
 
 #Check if Parameters are set
 if [ "$1" = "" ] || [ "$1" = "-h" ]; then
@@ -12,7 +12,7 @@ if [ "$1" = "" ] || [ "$1" = "-h" ]; then
   echo "# get-waterfox init >>> First init to create env >>> -I"
   echo ""
   echo "Select Waterfox target:"
-  echo "$ get-waterfox target [classic] [current] >>> Select your Waterfox target >>> -t"
+  echo "$ get-waterfox target [classic] [G4] >>> Select your Waterfox target >>> -t"
   echo "$ get-waterfox showtarget >>> Check your Waterfox target >>> -s"
   echo "(Target classic is default)"
   echo ""
@@ -64,13 +64,14 @@ fi
 
 #Target Waterfox
 if [ "$1" = "target" ] || [ "$1" = "-t" ]; then
-  if [ "$2" = "classic" ] || [ "$2" = "current" ]; then
+  if [ "$2" = "classic" ] || [ "$2" = "G4" ]; then
     echo "$2" > /usr/share/waterfox-data/target
     echo "[INFO] Set target to $2"
     exit
   else
     echo "[WARN] Invalid target!"
     echo "[INFO] Please set a valid target!"
+    echo "[INFO] For Waterfox G4 use UPPERCASE G!"
     exit
   fi
 fi
@@ -91,9 +92,11 @@ if [ "$1" = "download" ] || [ "$1" = "-d" ]; then
   fi
   target="$(cat /usr/share/waterfox-data/target)"
   echo "[INFO] Downloading $(cat /usr/share/waterfox-data/target) Waterfox from waterfoxproject.org to /usr/share/waterfox-data"
-  remoteversion="$(curl https://www.waterfox.net/download/ |grep -Eo "(https)://[a-zA-Z0-9./?=_-]*" |sort |grep linux64 |uniq |grep $(cat /usr/share/waterfox-data/target) )"
+  #remoteversion="$(curl https://www.waterfox.net/download/ |grep -Eo "(https)://[a-zA-Z0-9./?=_-]*" |sort |grep linux64 |uniq |grep $(cat /usr/share/waterfox-data/target) )"
+  remoteversion="$(curl https://cdn.waterfox.net/releases/linux64/installer/ |grep $(cat /usr/share/waterfox-data/target) |tail --lines 1 |awk '{print $2}' |cut -c7-9999 |egrep -o '^[^\"]+')"
   echo "[INFO] Please stand by ..."
-  wget $remoteversion -O /usr/share/waterfox-data/waterfox.tar.bz2
+  #echo "[DEBUG] Remoteversion String: $remoteversion"
+  wget https://cdn.waterfox.net/releases/linux64/installer/$remoteversion -O /usr/share/waterfox-data/waterfox.tar.bz2
   echo "[INFO] Download ready!"
   echo "[INFO] Setup localversion file"
   echo "[INFO] Updating localversion file"
@@ -185,7 +188,8 @@ if [ "$1" = "update" ] || [ "$1" = "-u" ]; then
   echo "[INFO] Checking localversion file ..."
   localversion="$(cat /usr/share/waterfox-data/localversion)"
   echo "[INFO] Checking remote version(s) ..."
-  remoteversion="$(curl https://www.waterfox.net/download/ |grep -Eo "(https)://[a-zA-Z0-9./?=_-]*" |sort |grep linux64 |uniq |grep $(cat /usr/share/waterfox-data/target) )"
+  #remoteversion="$(curl https://www.waterfox.net/download/ |grep -Eo "(https)://[a-zA-Z0-9./?=_-]*" |sort |grep linux64 |uniq |grep $(cat /usr/share/waterfox-data/target) )"
+  remoteversion="$(curl https://cdn.waterfox.net/releases/linux64/installer/ |grep $(cat /usr/share/waterfox-data/target) |tail --lines 1 |awk '{print $2}' |cut -c7-9999 |egrep -o '^[^\"]+')"
   if [ "$localversion" == "$remoteversion" ]; then
     echo "[INFO] The latest version is already installed!"
     exit
@@ -228,7 +232,8 @@ if [ "$1" = "checkupdate" ] || [ "$1" = "-c" ]; then
   echo "[INFO] Checking localversion file ..."
   localversion="$(cat /usr/share/waterfox-data/localversion)"
   echo "[INFO] Checking remote version(s) ..."
-  remoteversion="$(curl https://www.waterfox.net/download/ |grep -Eo "(https)://[a-zA-Z0-9./?=_-]*" |sort |grep linux64 |uniq |grep $(cat /usr/share/waterfox-data/target) )"
+  #remoteversion="$(curl https://www.waterfox.net/download/ |grep -Eo "(https)://[a-zA-Z0-9./?=_-]*" |sort |grep linux64 |uniq |grep $(cat /usr/share/waterfox-data/target) )"
+  remoteversion="$(curl https://cdn.waterfox.net/releases/linux64/installer/ |grep $(cat /usr/share/waterfox-data/target) |tail --lines 1 |awk '{print $2}' |cut -c7-9999 |egrep -o '^[^\"]+')"
   if [ "$localversion" == "$remoteversion" ]; then
     echo "[INFO] The latest version is already installed!"
     exit
@@ -269,4 +274,4 @@ fi
 
 
 #Unkown Input
-echo "Can't understand, plsease use -h for help"
+echo "Can't understand, please use -h for help"
