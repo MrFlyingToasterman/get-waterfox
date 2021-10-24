@@ -29,7 +29,7 @@ If you only wish to check if there is an update for waterfox: <br>
 You can choose if you want to use Waterfox __Classic__ or __Current__<br>
 `$ get-waterfox target classic` <br>
 or <br>
-`$ get-waterfox target current`<br>
+`$ get-waterfox target G4`<br>
 
 # Cleanup your cache
 If you wish to remove the cache copy of the Waterfox tarball in `/usr/share/waterfox-data`, just run:<br>
