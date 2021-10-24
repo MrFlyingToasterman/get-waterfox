@@ -26,7 +26,7 @@ If you only wish to check if there is an update for waterfox: <br>
 `$ sudo get-waterfox checkupdate` <br>
 
 # Target Waterfox
-You can choose if you want to use Waterfox __Classic__ or __Current__<br>
+You can choose if you want to use Waterfox __Classic__ or __G4__<br>
 `$ get-waterfox target classic` <br>
 or <br>
 `$ get-waterfox target G4`<br>
