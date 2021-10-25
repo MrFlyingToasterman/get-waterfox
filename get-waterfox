@@ -1,6 +1,6 @@
 #! /bin/bash
 
-version="1.8"
+version="1.9"
 
 #Check if Parameters are set
 if [ "$1" = "" ] || [ "$1" = "-h" ]; then
@@ -208,7 +208,7 @@ if [ "$1" = "update" ] || [ "$1" = "-u" ]; then
   rm -rf /usr/share/waterfox-data/waterfox.tar.bz2
   echo "[INFO] Downloading current Waterfox from waterfoxproject.org to /usr/share/waterfox-data"
   echo "[INFO] Please stand by ..."
-  wget $remoteversion -O /usr/share/waterfox-data/waterfox.tar.bz2
+  wget https://cdn.waterfox.net/releases/linux64/installer/$remoteversion -O /usr/share/waterfox-data/waterfox.tar.bz2
   echo "[ OK ] Download ready!"
   echo "[EXTRACTING] Please wait ..."
   tar -xf /usr/share/waterfox-data/waterfox.tar.bz2 -C /usr/share/waterfox/
